@@ -1,0 +1,6 @@
+Diferente do Getx ou do provider que consegue por reatividade em certos blocos de codigo na mesma tela
+o bloc nao consegue, ele precisa atualizar a tela inteira !
+
+
+No getX podemos atualizar varios widgets diferentes com diferentes conteudo na mesma pagina
+o bloc nao, no bloc nao conseguimos atualizar mais de um bloco de codigo na mesma pagina 
