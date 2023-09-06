@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorsApp {
   static ColorsApp? _instance;
-  ColorsApp._();
+  ColorsApp._(); ///singleton, ninguem pode estanciar essa classe a não ser ela mesma
 
   static ColorsApp get instanceColor {
     _instance ??= ColorsApp._();
@@ -13,6 +13,8 @@ class ColorsApp {
   Color get secondary => const Color(0xFFF88B0C);
 }
 
+
+///Facilitar na hora da chamada, vamos chamar assim: context.colors.primary
 extension ColorsAppExtension on BuildContext {
   ColorsApp get colors => ColorsApp.instanceColor;
 }

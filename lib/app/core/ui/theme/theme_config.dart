@@ -14,7 +14,11 @@ class ThemeConfig {
   );
 
   static final theme = ThemeData(
+
+    ///Scafold
     scaffoldBackgroundColor: Colors.white,
+
+    ///AppBar
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -23,15 +27,23 @@ class ThemeConfig {
         color: Colors.black,
       ),
     ),
+
+    ///Primary Color
     primaryColor: ColorsApp.instanceColor.primary,
+
+    ///Esquema de cores
     colorScheme: ColorScheme.fromSeed(
       seedColor: ColorsApp.instanceColor.primary,
       primary: ColorsApp.instanceColor.primary,
       secondary: ColorsApp.instanceColor.secondary,
     ),
+
+    ///Elevetade Button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: AppStyles.instanceStyles.primaryButton,
     ),
+
+    ///TextFormField
     inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.white,
       filled: true,
