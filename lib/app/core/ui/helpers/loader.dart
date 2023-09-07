@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+
+///mixin para ele rodar apenas em objeto STATE
 mixin Loader<T extends StatefulWidget> on State<T> {
   var isOpen = false;
 

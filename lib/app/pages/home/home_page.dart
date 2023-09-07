@@ -13,21 +13,22 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-//!BaseState<HomePage, HomeController> -> criamos o base State para remover os mixins e o initiState daqui
+//*BaseState -> é criado para a nossa homepage receber o bloc e o state, se não eu não iria conseguir tipar com 'homeController'
+//*HomeController> -> HomeController é o controller que eu quero que ele use
 class _HomePageState extends BaseState<HomePage, HomeController> {
-  //!Agora esse initState vai para a baseState
+  //!Se nao tivesse o baseState eu faria assim:
+  //!Porém como eu tenho o baseState eu nao preciso fazer isso \/
   // @override
   // void initState() {
   //   //preciso falar pra minha tela carregar os nossos produtos
-  //   //addPostFrameCallback -> para ter certeza que a tela ja esta construida
   //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
   //     context.read<HomeController>().loadProducts();
   //   });
   //   super.initState();
   // }
 
-  //metodo criado no baseState e vai ser chamado quando a tela for construida
   @override
+  //metodo criado no baseState e vai ser chamado somente quando a tela for construida
   void onReady() {
     controller.loadProducts();
   }
@@ -36,21 +37,29 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DeliveryAppBar(),
+
+      ///BlocConsumer -> ESCUTA(HomeController) E BUILDA(HomeState) a tela (lembre-se vai buildar a tela toda)
       body: BlocConsumer<HomeController, HomeState>(
         listener: ((context, state) {
-          //porque usa o build_runner e o part ? pra nos dar um beneficio de controle e para usar o conceito de patern match
+          ///state.status.matchAny -> derivado do @match (se eu não tratei os outros estados ele cai aqui)
+          ///o beneficio é que temos o controle de quando o nosso 'builder' vai rebuildar o nosso projeto, com o 'buildWhen'
           state.status.matchAny(
-              //any -> se eu nao tratei os outros estados ele cai aqui (se vier erro ou qualquer outra coisa que nao esteja aqui dentro, quero que ele esconda o loader)
+
+              ///any -> se veio error, se veio loader, se veio qualquer outra coisa eu vou querer que ele esconda o nosso loader
               any: () => hideLoader(),
+              
+              ///Quando for loading vai realizar o showLoader
               loading: () => showLoader(),
+             
+              ///Quando for error ele vai reliazar o error
               error: () {
                 hideLoader();
                 showError(state.errorMessage ?? "Erro não informado");
               });
 
-          //!Repare que o 'home_state.g.dart' fez tudo isso que pensavamos em fazer aqui nessa tela
-          //!ele fez la e a gente colocou aqui de uma forma mais elegante e legivel
-          //poderiamos usar if else ou switch aqui (sem utilizar build_runner e part)
+          //!Eu poderia realizar um switch aqui(código comentado abaixo) tratando tudo, porém com o @match(o aquivo.g) ele me traz dois metodos que nós temos o controle da tela
+          //!que são: "state.status.matchAny" e o "buildWhen", no nosso arquivo.g ele ja vai ter o switch abaixo
+          //*Osb: poderiamos usar if else ou switch aqui caso não tivessemos o @match(sem utilizar build_runner e part e baseState) \/
           // if(state.status == HomeStateStatus.initial) {} else if...
           //ou
           //switch(state.status) {
@@ -60,15 +69,19 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
           //}
         }),
 
-        //buildWhen -> quando é pra rebuildar a tela
+        ///buildWhen -> quando é pra rebuildar a tela (Nós vamos controlar isso com os 3 metodos abaixo), derivado do @match
         buildWhen: ((previous, current) => current.status.matchAny(
-              //any -> sempre false,
+              ///any -> sempre false, qualquer coisa que eu não estou mandando buildar ele vai ser falso, ele não vai buildar
               any: () => false,
-              //initial -> quero que faça o rebuild da tela
+
+              ///initial -> quero que faça o rebuild da tela
               initial: () => true,
-              //loaded -> quero que mostre
+
+              ///loaded -> quero que mostre a tela como esta, pois quando for loading eu quero que a tela fique como estava caso nada foi alterado
               loaded: () => true,
             )),
+
+        ///builder ele funcionara mesmo se o 'buildWhen' e o 'listener' estiver vazio (porém não é recomendavel)
         builder: ((context, state) {
           return Column(
             children: [
@@ -76,6 +89,7 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                 child: ListView.builder(
                   itemCount: state.products.length,
                   itemBuilder: ((context, index) {
+                    ///products recuperando a lista de products toda 
                     final products = state.products[index];
                     return DeliveryProductTile(
                       product: products,

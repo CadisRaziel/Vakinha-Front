@@ -16,6 +16,8 @@ class AppWidget extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           '/': (context) => const SplashPage(),
+
+          ///HomeRouter.page, pois dentro dessa classe tem implementações de provider(multiprovider)
           '/home': (context) => HomeRouter.page,
         },
       ),

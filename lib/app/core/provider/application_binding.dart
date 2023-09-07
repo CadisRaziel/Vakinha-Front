@@ -10,6 +10,7 @@ class ApplicationBinding extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ///Coloque na ordem correta !
         Provider(create: (context) => CustomDio()),
       ],
       child: child,

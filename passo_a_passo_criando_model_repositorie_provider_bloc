@@ -1,0 +1,20 @@
+1º Criamos nosso modelo
+
+2º criamos os repositories 
+            : 1º criamos a interface
+            : 2º criamos a classe que implementa a interface (para realizar o get, post, put, delete)
+
+3º Criamos classe de exceçoes de requisição
+
+4º Injetando dependencia para buscar as instancias do repositorie/Dio com o provider (ApplicationBinding)
+
+5º Criar a routes para a home_page (HomeRouter)
+
+6º Criar o HomeState
+
+7º Criar o gerador de codigo da homeState baseado no enum
+
+8º Criar o HomeController
+
+9º Adicionar na homePage o bloc
+

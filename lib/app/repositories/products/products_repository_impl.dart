@@ -7,6 +7,9 @@ import 'package:front_delivery/app/core/rest_client/custom_dio.dart';
 import 'package:front_delivery/app/models/product_model.dart';
 import 'package:front_delivery/app/repositories/products/products_repository.dart';
 
+
+///Repositorie -> realiza a chamada da api
+
 class ProductsRepositoryImpl implements ProductsRepository {
   final CustomDio dio;
   ProductsRepositoryImpl({
