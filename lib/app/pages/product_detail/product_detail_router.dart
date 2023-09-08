@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_delivery/app/pages/product_detail/product_detail_controller.dart';
 import 'package:front_delivery/app/pages/product_detail/product_detail_page.dart';
 import 'package:provider/provider.dart';
 
@@ -9,22 +10,18 @@ class ProductDetailRouter {
   ///Se não eu iria ter que colocar tudo que esta aqui la no appWidget
 
   static Widget get page => MultiProvider(
-        providers: [
-          // Provider<ProductsRepository>(
-          //   create: (context) => ProductsRepositoryImpl(
-          //     ///context.read(), Como ja temos no ApplicationBind a classe do CustomDio, nos pegamos ela com o 'read'
-          //     dio: context.read(),
-          //   ),
-          // ),
-          // Provider(
-          //   create: (context) => HomeController(
-          //     context.read(),
-          //   ),
-          // )
+        providers: [        
           Provider(
-            create: (context) => Object()
+            create: (context) => ProductDetailController()
           )
         ],
-        child: const ProductDetailPage(),
+
+          builder: (context, child) {
+            final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+            return ProductDetailPage(product: args['product'],);
+          },
+
+        ///Quando temos uma logica(igual do ProductDetailController) envolvida nós não utilizamos mais o child (e passaremos argumentos)
+        // child: ProductDetailPage(),
       );
 }
